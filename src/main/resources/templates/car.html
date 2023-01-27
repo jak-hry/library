@@ -15,7 +15,6 @@
 <tr>
     <p>Dodaj pojazd:</p>
     <form th:action="@{/add-car}" th:object="${newCar}" method="post">
-        <p>ID:<input type="text" th:field="*{id}" required></p>
         <p>Mark:<input type="text" th:field="*{mark}" required></p>
         <p>Model:<input type="text" th:field="*{model}" required></p>
         <p><input type="submit" value="add new car"></p>

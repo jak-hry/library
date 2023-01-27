@@ -3,17 +3,15 @@ package com.example.thymeleaf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class CarController {
 
-    private final CarRepository carRepository;
-
     @Autowired
-    public CarController(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
+    private CarService carService;
 
     @GetMapping("/test")
     public String home(Model model) {
@@ -25,15 +23,15 @@ public class CarController {
 
     @GetMapping("/car")
     public String getCars(Model model) {
-//        Iterable<Car> data = carRepository.findAll();
-//        model.addAttribute("cars", data);
+        Iterable<Car> data = carService.getAllCars();
+        model.addAttribute("cars", data);
         model.addAttribute("newCar", new Car());
         return "car";
     }
 
     @PostMapping("/add-car")
     public String addCar(@ModelAttribute Car car) {
-        carRepository.save(car);
+        carService.addCar(car);
         return "redirect:/car";
     }
 }

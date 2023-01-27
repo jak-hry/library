@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     private Long id;
     private String mark;
