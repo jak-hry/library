@@ -4,7 +4,6 @@ package com.example.library;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,12 +17,12 @@ public class LibraryController {
     }
 
     @GetMapping("/list")
-    public List<Book> getBooks(){
+    public List<Book> getBooks() {
         return libraryService.getAllBooks();
     }
 
     @GetMapping("/list/string")
-    public String getBooksSpring() {
+    public String getBooksString() {
 
         List<Book> booksList = libraryService.getAllBooks();
         if (booksList.size() == 0) {
@@ -36,7 +35,7 @@ public class LibraryController {
     }
 
     @GetMapping("/{title}")
-    public List<Book> getBookByTitle(Book book){
+    public List<Book> getBookByTitle(Book book) {
         return libraryService.findBookByTitle(book);
     }
 
@@ -59,7 +58,7 @@ public class LibraryController {
 
         if (id > list.size() || list.size() == 0) {
             return "there is no book with id: " + id;
-        } else if (id < list.size()){
+        } else if (id < list.size()) {
             list.get(id).setTitle(updatedBook.getTitle());
             list.get(id).setProductionYear(updatedBook.getProductionYear());
             list.get(id).setRating(updatedBook.getRating());
