@@ -5,21 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Testy wyświetlania listy pojazdów</h1>
 
+<h1>Testy wyświetlania listy pojazdów</h1>
 <tr th:each="car: ${cars}">
     <td th:text="${car.getMark()}"></td>
     <td th:text="${car.getModel()}"/>
     <p>-----------------------------------</p>
     <br>
 <tr>
-<p>Dodaj pojazd:</p>
-
-<form th:action="@{/add-car}" th:object="${newCar}" method="post">
-    <p>Mark:<input type="text" th:field="*{mark}"></p>
-    <p>Model:<input type="text" th:field="*{model}"></p>
-    <p><input type="submit" value="add new car"></p>
-</form>
+    <p>Dodaj pojazd:</p>
+    <form th:action="@{/add-car}" th:object="${newCar}" method="post">
+        <p>Mark:<input type="text" th:field="*{mark}" required></p>
+        <p>Model:<input type="text" th:field="*{model}" required></p>
+        <p><input type="submit" value="add new car"></p>
+    </form>
 
 </body>
 </html>
