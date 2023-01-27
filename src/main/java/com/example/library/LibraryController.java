@@ -1,30 +1,31 @@
-package com.example.booklibrary;
+package com.example.library;
 
 
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/library")
 public class LibraryController {
 
-    private final BookService bookService;
+    private final LibraryService libraryService;
 
-    public LibraryController(BookService bookRepository) {
-        this.bookService = bookRepository;
+    public LibraryController(LibraryService bookRepository) {
+        this.libraryService = bookRepository;
     }
 
     @GetMapping("/list")
     public List<Book> getBooks(){
-        return bookService.getAllBooks();
+        return libraryService.getAllBooks();
     }
 
     @GetMapping("/list/string")
     public String getBooksSpring() {
 
-        List<Book> booksList = bookService.getAllBooks();
+        List<Book> booksList = libraryService.getAllBooks();
         if (booksList.size() == 0) {
             return "book library is empty";
         } else {
@@ -34,22 +35,27 @@ public class LibraryController {
         }
     }
 
-    @PostMapping("/add")
+    @GetMapping("/{title}")
+    public List<Book> getBookByTitle(Book book){
+        return libraryService.findBookByTitle(book);
+    }
+
+    @PostMapping
     public String addBook(@RequestBody Book addingBook) {
 
-        for (Book book : bookService.getAllBooks()) {
+        for (Book book : libraryService.getAllBooks()) {
             if (book.getTitle().equals(addingBook.getTitle())) {
                 return "book with title: " + addingBook.getTitle() + " is already added";
             }
         }
-        bookService.getAllBooks().add(addingBook);
+        libraryService.addBook(addingBook);
         return "book with title: " + addingBook.getTitle() + " added";
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public String updateBook(@PathVariable("id") int id, @RequestBody Book updatedBook) {
 
-        List<Book> list = bookService.getAllBooks();
+        List<Book> list = libraryService.getAllBooks();
 
         if (id > list.size() || list.size() == 0) {
             return "there is no book with id: " + id;
@@ -63,11 +69,11 @@ public class LibraryController {
         }
     }
 
-    @DeleteMapping("/remove")
+    @DeleteMapping
     public String removeBook(@RequestBody Book book) {
 
-        if (bookService.getAllBooks().contains(book)) {
-            bookService.getAllBooks().remove(book);
+        if (libraryService.getAllBooks().contains(book)) {
+            libraryService.removeBook(book);
             return "book removed";
         } else {
             return "there is no such book";
